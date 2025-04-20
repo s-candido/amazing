@@ -13,7 +13,7 @@ Des fichiers CSV contenant les événements utilisateur :
 - Colonnes : `event_time`, `event_type`, `product_id`, `category_code`, `price`, `user_id`, `user_session`
 
 ### 🗃️ Base DuckDB locale
-- Fichier généré : `amazing_local.duckdb`
+- Fichier généré : `amazing.duckdb`
 - Tables principales :
   - `all_events` : tous les logs concaténés
   - `loaded_files` : suivi des fichiers déjà importés
@@ -29,7 +29,7 @@ Des fichiers CSV contenant les événements utilisateur :
   - Vues, paniers, achats, catégories explorées
   - Total dépensé, prix moyen, catégorie préférée
 - ✅ Clustering des utilisateurs (`KMeans`)
-- ✅ Extraction de groupes comportementaux : acheteurs, curieux, explorateurs, etc.
+- ✅ Extraction de groupes comportementaux : acheteurs, curieux, etc.
 
 ---
 
@@ -44,13 +44,7 @@ Des fichiers CSV contenant les événements utilisateur :
 
 ## 🚀 Utilisation
 
-### 1. Installer les dépendances
-
-```bash
-pip install duckdb pandas numpy scikit-learn
-```
-
-### 2. Créer le dossier `data/` (s’il n’existe pas déjà)
+### 1. Créer le dossier `data/` (s’il n’existe pas déjà)
 
 ```bash
 mkdir data
@@ -58,7 +52,7 @@ mkdir data
 
 Place dans ce dossier les fichiers `.csv` à importer (`2019-Oct.csv`, etc.)
 
-### 3. Lancer le script
+### 2. Lancer le script
 
 > 🕒 **Note importante** :  
 > Le **premier chargement peut être très long** (plusieurs dizaines de minutes) si les fichiers contiennent des millions de lignes.  
