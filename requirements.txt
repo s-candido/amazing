@@ -1,0 +1,4 @@
+duckdb
+pandas
+numpy
+scikit-learn
