@@ -9,15 +9,15 @@ Ce projet est un pipeline de traitement de logs utilisateurs pour le marketplace
 ### 📁 Données d'entrée
 Des fichiers CSV contenant les événements utilisateur :
 
-- `view`, `cart`, `remove_from_cart`, `purchase`
-- Colonnes : `event_time`, `event_type`, `product_id`, `category_code`, `price`, `user_id`, `user_session`
+- Colonnes all_events : `event_time`, `event_type`, `product_id`, `category_code`, `price`, `user_id`, `user_session`
+- Colonnes user_segments : `user_id`, `total_events`, `total_views`, `total_purchases`, `avg_time_between_events`, `total_spent`, `avg_basket`, `last_event_time`, `conversion_rate`, `purchase_ratio`, `days_since_last_event`, `segment`
 
 ### 🗃️ Base DuckDB locale
 - Fichier généré : `amazing.duckdb`
 - Tables principales :
   - `all_events` : tous les logs concaténés
   - `loaded_files` : suivi des fichiers déjà importés
-  - `user_features` : statistiques agrégées par utilisateur
+  - `user_segments` : résultats du clustering utilisateur
 
 ---
 
@@ -25,20 +25,25 @@ Des fichiers CSV contenant les événements utilisateur :
 
 - ✅ Chargement automatique des fichiers `.csv` depuis le dossier `./data`
 - ✅ Ingestion dans DuckDB avec vérification anti-doublons
-- ✅ Génération de `user_features` enrichie :
-  - Vues, paniers, achats, catégories explorées
-  - Total dépensé, prix moyen, catégorie préférée
+- ✅ Agrégation des événements utilisateur :
+  - Nombre d'événements, vues, achats
+  - Total dépensé, panier moyen, taux de conversion
+  - Récence, délai moyen entre interactions
+- ✅ Filtrage des utilisateurs avec **≥ 10 événements**
+- ✅ Traitement par batch pour efficacité mémoire
 - ✅ Clustering des utilisateurs (`KMeans`)
-- ✅ Extraction de groupes comportementaux : acheteurs, curieux, etc.
+- ✅ Réduction de dimension (`PCA`) + Visualisation 2D
+- ✅ Export des résultats dans la table `user_segments`
 
 ---
 
 ## 📊 Exemple de `user_features`
 
-| user_id | nb_view | nb_cart | nb_achats | total_depense | category_top       |
-|---------|---------|---------|-----------|----------------|--------------------|
-| 123456  | 15      | 3       | 1         | 89.99          | electronics.phone  |
-| 987654  | 32      | 0       | 0         | 0.0            | apparel.shoes      |
+| user_id | segment | total_events | avg_basket | conversion_rate | days_since_last_event |
+|---------|---------|---------------|-------------|------------------|------------------------|
+| 123456  | 0       | 25            | 55.30       | 0.08             | 2                      |
+| 987654  | 1       | 12            | 0.00        | 0.00             | 14                     |
+| 333111  | 2       | 48            | 102.90      | 0.20             | 5                      |
 
 ---
 
@@ -58,35 +63,31 @@ Place dans ce dossier les fichiers `.csv` à importer (`2019-Oct.csv`, etc.)
 > Le **premier chargement peut être très long** (plusieurs dizaines de minutes) si les fichiers contiennent des millions de lignes.  
 > Ensuite, le script détecte automatiquement les fichiers déjà importés grâce à la table `loaded_files`.
 
+### 3. Lancer le script de clustering
+
+Cela calcule les statistiques utilisateur, filtre les profils actifs, applique KMeans et exporte les résultats dans user_segments.
+Une visualisation des clusters est générée automatiquement.
+
 ---
 
 ## 🔎 Requêtes utiles
 
-### Utilisateurs acheteurs
+### Utilisateurs par segment
 
 ```sql
-SELECT * FROM user_features WHERE nb_achats > 0;
+SELECT segment, COUNT(*) FROM user_segments GROUP BY segment;
 ```
 
-### Utilisateurs visiteurs (vues mais pas d’achats)
+### Utilisateurs récents
 
 ```sql
-SELECT * FROM user_features WHERE nb_view > 0 AND nb_achats = 0;
+SELECT * FROM user_segments WHERE days_since_last_event < 7;
 ```
 
-### Catégories les plus vues par utilisateur
-
-```sql
-SELECT user_id, category_code, COUNT(*) AS nb_visites
-FROM all_events
-WHERE event_type = 'view'
-GROUP BY user_id, category_code
-ORDER BY user_id, nb_visites DESC;
-```
 
 ---
 
-## 👤 Auteur
+## 👤 Auteurs
 
-Projet MSPR Bloc 2 – Étudiant CDA  
+Projet MSPR Bloc 2 – Étudiants ECDPIA  
 Powered by 🦆 DuckDB, 💡 Pandas, 🤖 Scikit-learn
