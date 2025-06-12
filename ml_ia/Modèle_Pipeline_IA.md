@@ -1,0 +1,14 @@
+- Load
+- Describe / Value Count
+- Categorical, OneHot Encoding, etc
+- Drop Na
+- Drop Null
+- Standardisation et Normalisation
+- Describe / Value Count
+- Train Test Split
+- HyperParameters
+- List Models
+- Cross Validation
+- Fit / Training
+- Score
+- Evaluate
