@@ -6,6 +6,10 @@ Ce projet est un pipeline de traitement de logs utilisateurs pour le marketplace
 
 ## 🧱 Architecture du projet
 
+
+![alt text](img/MSPR_INFRA_BLOC_2.jpg)
+
+
 ### 📁 Données d'entrée
 Des fichiers CSV contenant les événements utilisateur :
 
