@@ -5,7 +5,7 @@
 - Drop Null
 - Standardisation et Normalisation
 - Describe / Value Count
-- Train Test Split
+- Train Test Split ou Stratfied K Fold
 - HyperParameters
 - List Models
 - Cross Validation
@@ -20,7 +20,7 @@ Partitionner les tables tous les 10% de tout les users.
 
 
 Extract =
-Google Anlytics
+Google Analytics
 
 Load =
 Big Query
