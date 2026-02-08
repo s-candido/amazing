@@ -1,0 +1,28 @@
+{
+  "model_name": "RandomForest",
+  "features": [
+    "total_events",
+    "total_views",
+    "total_purchases",
+    "avg_time_between_events",
+    "total_spent",
+    "avg_basket",
+    "conversion_rate",
+    "purchase_ratio",
+    "days_since_last_event",
+    "is_active",
+    "events_per_day",
+    "spend_per_event",
+    "view_to_purchase_ratio"
+  ],
+  "timestamp": "20260208_221124",
+  "accuracy": 0.05,
+  "classes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ]
+}
