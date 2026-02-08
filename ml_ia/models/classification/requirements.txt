@@ -1,0 +1,30 @@
+# User Classification Model Requirements
+# Install with: pip install -r requirements.txt
+
+# Core ML libraries
+scikit-learn>=1.3.0
+xgboost>=1.7.0
+lightgbm>=3.3.0
+
+# Data processing
+pandas>=1.5.0
+numpy>=1.24.0
+
+# Database
+duckdb>=0.8.0
+
+# Visualization
+matplotlib>=3.6.0
+seaborn>=0.12.0
+
+# Utilities
+joblib>=1.2.0
+tqdm>=4.64.0
+pathlib2>=2.3.0
+
+# Optional: For neural networks (if using TensorFlow)
+# tensorflow>=2.10.0
+
+# Jupyter notebook support
+jupyter>=1.0.0
+ipykernel>=6.15.0
