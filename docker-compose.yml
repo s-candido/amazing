@@ -1,0 +1,144 @@
+
+services:
+
+  airflow-webserver:
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile.airflow
+    container_name: airflow-webserver
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@db_airflow:5432/airflow
+      - AIRFLOW__CORE__FERNET_KEY=GgyJ5jUehSy2zQqY958eUWW1ezEgNp4OerBy-AKuD14=
+    env_file:
+      - ./env_files/.env
+      - ./env_files/secrets.env
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - airflow_logs:/opt/airflow/logs
+    ports:
+      - "8080:8080"
+    entrypoint: /entrypoint.sh
+    command: webserver
+    networks:
+      - amazing_network
+    depends_on:
+      db_mlflow:
+        condition: service_healthy
+
+
+  airflow-scheduler:
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile.airflow
+    container_name: airflow-scheduler
+    env_file:
+      - ./env_files/.env
+      - ./env_files/secrets.env
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@db_airflow:5432/airflow
+      - AIRFLOW__WEBSERVER__SECRET_KEY=mysecretkey
+      - AIRFLOW__CORE__FERNET_KEY=GgyJ5jUehSy2zQqY958eUWW1ezEgNp4OerBy-AKuD14=
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - airflow_logs:/opt/airflow/logs
+    entrypoint: /entrypoint.sh
+    command: scheduler
+    networks:
+      - amazing_network
+    depends_on:
+      db_mlflow:
+        condition: service_healthy
+
+  db_airflow:
+    image: postgres:13
+    container_name: db_airflow
+    ports:
+      - "5443:5432"
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    networks:
+      - amazing_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # mlfow server with postgresql db amazing_network
+  mlflow:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.mlflow
+    container_name: mlflow
+    ports:
+      - 5000:5000
+    volumes:
+      - ./mlflow:/mlflow/artifacts
+      - ./:/workspace/
+    depends_on:
+      db_mlflow:
+        condition: service_healthy
+    networks:
+      - amazing_network
+    env_file:
+      - ./env_files/.env
+      - ./env_files/secrets.env
+    command: /tmp/start_mlflow.sh
+
+  # db backend for mlflow
+  db_mlflow:
+    image: postgres:10.5
+    container_name: db_mlflow
+    expose:
+      - "5432"
+    env_file:
+      - ./env_files/.env
+      - ./env_files/secrets.env
+    hostname: postgresql
+    shm_size: 256mb
+    volumes:
+      - ./dbs_mlflow:/var/lib/postgresql/data
+    networks:
+      - amazing_network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mlflow -d mlflow-db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  amazing_postgresql:
+    container_name: amazing_postgresql
+    image: postgres:13
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.postgres
+    ports:
+      - "5441:5432"
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+    volumes:
+      - ./postgresql_data:/var/lib/postgresql
+    networks:
+      - amazing_network
+
+
+networks:
+  amazing_network:
+    driver: bridge
+
+volumes:
+  airflow_logs:
+  airflowdata:
+  mlflow:
+  dbs_mlflow:
+  postgresql_data:

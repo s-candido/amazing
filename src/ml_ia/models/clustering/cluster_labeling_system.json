@@ -1,0 +1,118 @@
+{
+  "timestamp": "2026-02-21T23:20:44.631490",
+  "table_source": "user_segments_11_2019_kmeans",
+  "num_clusters": 4,
+  "total_users": 300000,
+  "scoring_method": "balanced_quartiles",
+  "score_weights": {
+    "engagement": 0.4,
+    "spending": 0.4,
+    "conversion": 0.2
+  },
+  "cluster_labels": {
+    "0": {
+      "label": "High-Value Customers",
+      "code": "A",
+      "score": 23.091177835820982,
+      "description": "High engagement with premium spending patterns",
+      "size": 29561,
+      "pct_of_total": 9.9,
+      "engagement": 119.14,
+      "conversion_rate": 0.94,
+      "buyer_rate": 0.94,
+      "avg_spent": 1171.55,
+      "avg_basket": 479.73
+    },
+    "1": {
+      "label": "Regular Customers",
+      "code": "C",
+      "score": 3.7855750445691423,
+      "description": "Medium engagement with consistent purchase behavior",
+      "size": 269612,
+      "pct_of_total": 89.9,
+      "engagement": 35.33,
+      "conversion_rate": 0.18,
+      "buyer_rate": 0.18,
+      "avg_spent": 35.56,
+      "avg_basket": 24.11
+    },
+    "2": {
+      "label": "Power Users",
+      "code": "A",
+      "score": 40.0,
+      "description": "Very high engagement but moderate spending",
+      "size": 1,
+      "pct_of_total": 0.0,
+      "engagement": 22929.0,
+      "conversion_rate": 0.0,
+      "buyer_rate": 0.0,
+      "avg_spent": 0.0,
+      "avg_basket": 0.0
+    },
+    "3": {
+      "label": "High-Value Customers",
+      "code": "A",
+      "score": 60.3571895852414,
+      "description": "High engagement with premium spending patterns",
+      "size": 826,
+      "pct_of_total": 0.3,
+      "engagement": 204.75,
+      "conversion_rate": 1.0,
+      "buyer_rate": 1.0,
+      "avg_spent": 11476.4,
+      "avg_basket": 579.59
+    }
+  },
+  "cluster_profiles": {
+    "0": {
+      "cluster_id": 0,
+      "size": 29561,
+      "avg_events": 119.13558404654782,
+      "avg_views": 109.19627211528703,
+      "avg_purchases": 2.897398599506106,
+      "avg_spent": 1171.5466110754035,
+      "avg_basket": 479.73485618977605,
+      "conversion_rate": 0.9385000507425324
+    },
+    "1": {
+      "cluster_id": 1,
+      "size": 269612,
+      "avg_events": 35.334450988828394,
+      "avg_views": 33.659076747325784,
+      "avg_purchases": 0.27539946293191697,
+      "avg_spent": 35.55934524427697,
+      "avg_basket": 24.112573830214917,
+      "conversion_rate": 0.18244736881147725
+    },
+    "2": {
+      "cluster_id": 2,
+      "size": 1,
+      "avg_events": 22929.0,
+      "avg_views": 22926.0,
+      "avg_purchases": 0.0,
+      "avg_spent": 0.0,
+      "avg_basket": 0.0,
+      "conversion_rate": 0.0
+    },
+    "3": {
+      "cluster_id": 3,
+      "size": 826,
+      "avg_events": 204.74939467312348,
+      "avg_views": 142.38256658595643,
+      "avg_purchases": 24.53995157384988,
+      "avg_spent": 11476.401089588378,
+      "avg_basket": 579.588600708069,
+      "conversion_rate": 1.0
+    }
+  },
+  "code_distribution": {
+    "A": {
+      "count": 30388,
+      "percentage": 10.1
+    },
+    "C": {
+      "count": 269612,
+      "percentage": 89.9
+    }
+  }
+}

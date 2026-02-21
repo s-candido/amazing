@@ -1,0 +1,25 @@
+FROM apache/airflow:2.5.1-python3.10
+
+
+# Copy the requirements file
+COPY requirement.txt .
+
+# Install the dependencies from the requirements file
+RUN pip install --no-cache-dir -r requirement.txt
+
+# Copy the DAGs directory to the Airflow home directory
+COPY dags/ /opt/airflow/dags/
+
+# Copy the entrypoint script
+COPY infra/start_airflow.sh /entrypoint.sh
+
+# Switch to the root user to change permissions
+USER root
+RUN chmod +x /entrypoint.sh
+RUN chmod +x /opt/airflow/dags/
+RUN chmod -R 755 /opt/airflow/dags/
+# Switch back to the airflow user
+USER airflow
+
+# Set the entrypoint to the entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]

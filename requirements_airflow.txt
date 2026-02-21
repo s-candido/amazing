@@ -1,0 +1,17 @@
+openpyxl 
+xlrd 
+openmeteo-requests 
+requests-cache 
+retry-requests 
+numpy 
+pandas
+scikit-learn
+seaborn
+numpy
+matplotlib
+mlflow==2.19.0
+numpy==1.23.5
+pandas==1.5.3
+joblib
+psycopg2-binary
+apache-airflow
