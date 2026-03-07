@@ -1,3 +1,10 @@
 data/
+__pycache__/
+/.qlty
+/.ruff_caches
+/.sisyphus
+/test_models
+/saved_models
+/*.csv
 amazing.duckdb
 amazing.duckdb.wal
