@@ -8,3 +8,5 @@ __pycache__/
 /*.csv
 amazing.duckdb
 amazing.duckdb.wal
+
+dags/src/data_folder
