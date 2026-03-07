@@ -62,7 +62,7 @@ def data_cleansing_and_preprocessing(
             CASE WHEN (total_views + total_purchases) > 0 THEN total_purchases * 1.0 / (total_views + total_purchases) ELSE 0 END AS purchase_ratio,
             DATE_PART('day', CAST('2020-03-31 22:00:00' AS TIMESTAMP) - last_event_time) AS days_since_last_event
         FROM features
-        WHERE total_events >= 10
+        WHERE total_events >= 1
         """
         
         print("Executing aggregation query...")

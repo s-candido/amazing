@@ -1,0 +1,13 @@
+FROM python:3.7.12-buster
+
+WORKDIR /workspace/
+
+# Copy infra scripts
+COPY infra/* /tmp/
+
+
+# Add executable permissions to the script
+RUN chmod +x /tmp/start_mlflow.sh
+
+# Install MLFlow for remote tracking
+RUN python -m pip install mlflow psycopg2-binary

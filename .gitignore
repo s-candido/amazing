@@ -10,3 +10,6 @@ amazing.duckdb
 amazing.duckdb.wal
 
 dags/src/data_folder
+dbs_mlflow/
+postgresql_data/
+mlflow/

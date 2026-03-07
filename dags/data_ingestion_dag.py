@@ -7,8 +7,6 @@ from airflow.operators.dummy_operator import DummyOperator
 import sys
 import os
 
-from src.data_ingestion import run_full_pipeline
-
 from src.etl.load_all_events import load_all_events
 from src.etl.data_preprocessing import data_cleansing_and_preprocessing
 
@@ -40,9 +38,6 @@ DB_CONFIG = {
     "password": "postgres",
     "port": 5432,
 }
-
-
-
 
 with DAG(
         dag_id="data_ingestion_dag",
