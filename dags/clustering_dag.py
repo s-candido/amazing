@@ -26,7 +26,6 @@ FEATURE_COLUMNS = [
     "avg_time_between_events",
     "total_spent",
     "avg_basket",
-    "last_event_time",
     "conversion_rate",
     "purchase_ratio",
     "days_since_last_event",
@@ -73,7 +72,7 @@ def evaluate_clustering_task(**context):
     return metrics
 
 with DAG(
-    dag_id="clustering_training_dag",
+    dag_id="clustering_dag",
     schedule_interval=None,
     start_date=datetime(2022, 3, 3),
     catchup=False,
